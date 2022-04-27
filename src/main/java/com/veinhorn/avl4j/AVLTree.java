@@ -17,7 +17,17 @@ public class AVLTree {
         if (root == null) {
             root = new Node(value);
         } else {
-            // if ()
+            insert(root, value);
+        }
+    }
+
+    private void insert(Node node, int value) {
+        if (node.getValue() > value) {
+            if (node.left == null) node.left = new Node(value);
+            else insert(node.left, value);
+        } else if (node.getValue() < value) {
+            if (node.right == null) node.right = new Node(value);
+            else insert(node.right, value);
         }
     }
 

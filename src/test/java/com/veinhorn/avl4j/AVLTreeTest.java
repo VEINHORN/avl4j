@@ -9,6 +9,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AVLTreeTest {
     @Test
+    public void testInserting() {
+        AVLTree tree = new AVLTree();
+        tree.insert(4);
+        tree.insert(2);
+        tree.insert(5);
+        tree.insert(1);
+        tree.insert(6);
+
+        assertTrue(true);
+    }
+
+    @Test
     @DisplayName("should search value in AVL tree")
     public void testSearching() {
         assertEquals(new AVLTree.Node(1, null, null), createTestTree().search(1));
