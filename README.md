@@ -9,3 +9,8 @@ Java implementation of AVL tree structure.
 - https://www.geeksforgeeks.org/avl-tree-set-1-insertion/
 - Lecture 6: AVL Trees, AVL Sort (https://www.youtube.com/watch?v=FNeL18KsWPc)
 - https://www.cs.usfca.edu/~galles/visualization/AVLtree.html
+
+## Alternative Java solutions
+
+- https://github.com/SurajSubramanian/AVL-Trees
+- https://github.com/isaacmast/AVLTree

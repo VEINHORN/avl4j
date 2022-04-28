@@ -12,6 +12,10 @@ public class AVLTree {
         this.root = root;
     }
 
+    public void insert(int... values) {
+        for (int value : values) insert(value);
+    }
+
     public void insert(int value) {
         if (root == null) root = new Node(value);
         else              root = insert(root, value);
@@ -28,18 +32,16 @@ public class AVLTree {
 
         int balanceFactor = getBalance(node);
         if (balanceFactor > 1) {
-            // right-right case
-            if (value > node.right.value) {
+            if (value > node.right.value) { // right-right case
                 return rotateLeft(node);
-            } else if (value < node.right.value) {
+            } else if (value < node.right.value) { // right-left rotation
                 node.right = rotateRight(node.right);
                 return rotateLeft(node);
             }
         } else if (balanceFactor < -1) {
-            // left-left case
-            if (value < node.left.value) {
+            if (value < node.left.value) { // left-left rotation
                 return rotateRight(node);
-            } else if (value > node.left.value) {
+            } else if (value > node.left.value) { // left-right rotation
                 node.left = rotateLeft(node.left);
                 return rotateRight(node);
             }
@@ -50,13 +52,15 @@ public class AVLTree {
 
     public static Node rotateLeft(Node pivot) {
         Node q = pivot.right;
-        Node qLeft = q.left;
+        // Node qLeft = q.left;
+        Node qLeft = q == null ? null : q.left;
 
-        q.left = pivot;
+        if (q != null) q.left = pivot;
         pivot.right = qLeft;
 
         pivot.height = Math.max(height(pivot.left), height(pivot.right)) + 1;
-        q.height = Math.max(height(q.left), height(q.right)) + 1;
+        // q.height = Math.max(height(q.left), height(q.right)) + 1;
+        if (q != null) q.height = Math.max(height(q.left), height(q.right)) + 1;
 
         return q;
     }
