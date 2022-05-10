@@ -5,7 +5,41 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+// TODO: Add more tests to the AVL tree. Maybe separate unit tests for insert and deletion operations
 class AVLTreeTest {
+    /*
+    Tree before deletion:
+
+              9
+             / \
+            1   10
+           / \    \
+          0   5    11
+         /   / \
+       -1   2   6
+
+     Tree after deletion:
+
+              1
+             / \
+            0   9
+           /   /  \
+         -1   5    11
+             / \
+            2   6
+
+      Preorder traversal: 1 0 -1 9 5 2 6 11
+     */
+    @Test
+    public void testDeletion() {
+        AVLTree tree = new AVLTree();
+        tree.insert(9, 5, 10, 0, 6, 11, -1, 1, 2);
+
+        tree.delete(10);
+
+        assertEquals("10-1952611", tree.toString());
+    }
+
     /* Result:
                    30
                   /  \

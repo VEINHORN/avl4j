@@ -50,17 +50,77 @@ public class AVLTree {
         return node;
     }
 
+    public void delete(int value) {
+        root = delete(root, value);
+    }
+
+    private Node delete(Node node, int value) {
+        if (node == null) return node;
+
+        if (value < node.value) {
+            node.left = delete(node.left, value);
+        } else if (value > node.value) {
+            node.right = delete(node.right, value);
+        } else { // if key is the same as root's key, then this is the node to be deleted
+            if (node.left == null || node.right == null) {
+                Node tmp = null;
+
+                if (tmp == node.left) tmp = node.right;
+                else                  tmp = node.left;
+
+                if (tmp == null) { // No child case
+                    tmp = node;
+                    node = null;
+                } else { // One child case
+                    node = tmp;
+                }
+            } else { // Node with 2 children. Get the inorder successor (smallest in the right subtree)
+                Node tmp = minValueNode(node.right);
+
+                node.value = tmp.value; // copy the inorder successor's data to this node
+
+                node.right = delete(node.right, tmp.value); // delete the inorder successor
+            }
+        }
+
+        if (node == null) return node; // if the tree had only one node then return
+
+        node.height = Math.max(height(node.left), height(node.right)) + 1; // update height of the current node
+
+        int balanceFactor = getBalance(node);
+        if (balanceFactor > 1) {
+            if (getBalance(node.right) >= 0) return rotateLeft(node); // right-right case
+            else if (getBalance(node.right) < 0) {                    // right left case
+                node.right = rotateRight(node.right);
+                return rotateLeft(node);
+            }
+        } else if (balanceFactor < -1) {
+            if (getBalance(node.left) <= 0) return rotateRight(node); // left-left case
+            else if (getBalance(node.left) > 0) {                     // left right case
+                node.left = rotateLeft(node.left);
+                return rotateRight(node);
+            }
+        }
+
+        return node;
+    }
+
+    // Given a non-empty binary search tree, return the node with minimum key value found in that tree
+    private Node minValueNode(Node node) {
+        Node current = node;
+        while (current.left != null) current = current.left;
+        return current;
+    }
+
     public static Node rotateLeft(Node pivot) {
         Node q = pivot.right;
-        // Node qLeft = q.left;
-        Node qLeft = q == null ? null : q.left;
+        Node qLeft = q.left;
 
-        if (q != null) q.left = pivot;
+        q.left = pivot;
         pivot.right = qLeft;
 
         pivot.height = Math.max(height(pivot.left), height(pivot.right)) + 1;
-        // q.height = Math.max(height(q.left), height(q.right)) + 1;
-        if (q != null) q.height = Math.max(height(q.left), height(q.right)) + 1;
+        q.height = Math.max(height(q.left), height(q.right)) + 1;
 
         return q;
     }
@@ -79,7 +139,6 @@ public class AVLTree {
         p.right = pivot;
         pivot.left = pRight;
 
-        // TODO: Update height here
         pivot.height = Math.max(height(pivot.left), height(pivot.right)) + 1;
         p.height = Math.max(height(p.left), height(p.right)) + 1;
 
@@ -111,11 +170,12 @@ public class AVLTree {
         traverseUsing(consumer, root);
     }
 
+    // Traverse in pre-order
     private void traverseUsing(Consumer<Integer> consumer, Node node) {
         if (node == null) return;
 
-        traverseUsing(consumer, node.left);
         consumer.accept(node.value);
+        traverseUsing(consumer, node.left);
         traverseUsing(consumer, node.right);
     }
 
@@ -141,7 +201,7 @@ public class AVLTree {
     }
 
     public static class Node {
-        private final Integer value; // TODO: Rename this field to "key"
+        private Integer value; // TODO: Rename this field to "key"
         private int height;
         private Node left;
         private Node right;
