@@ -12,36 +12,36 @@ public class AVLTree {
         this.root = root;
     }
 
-    public void insert(int... values) {
-        for (int value : values) insert(value);
+    public void insert(int... keys) {
+        for (int key : keys) insert(key);
     }
 
-    public void insert(int value) {
-        if (root == null) root = new Node(value);
-        else              root = insert(root, value);
+    public void insert(int key) {
+        if (root == null) root = new Node(key);
+        else              root = insert(root, key);
     }
 
-    private Node insert(Node node, int value) {
-        if (node == null)            return new Node(value);
+    private Node insert(Node node, int key) {
+        if (node == null)            return new Node(key);
 
-        if (node.value > value)      node.left = insert(node.left, value);
-        else if (node.value < value) node.right = insert(node.right, value);
+        if (node.key > key)      node.left = insert(node.left, key);
+        else if (node.key < key) node.right = insert(node.right, key);
         else                         return node;
 
         node.height = 1 + Math.max(height(node.left), height(node.right));
 
         int balanceFactor = getBalance(node);
         if (balanceFactor > 1) {
-            if (value > node.right.value) { // right-right case
+            if (key > node.right.key) { // right-right case
                 return rotateLeft(node);
-            } else if (value < node.right.value) { // right-left rotation
+            } else if (key < node.right.key) { // right-left rotation
                 node.right = rotateRight(node.right);
                 return rotateLeft(node);
             }
         } else if (balanceFactor < -1) {
-            if (value < node.left.value) { // left-left rotation
+            if (key < node.left.key) { // left-left rotation
                 return rotateRight(node);
-            } else if (value > node.left.value) { // left-right rotation
+            } else if (key > node.left.key) { // left-right rotation
                 node.left = rotateLeft(node.left);
                 return rotateRight(node);
             }
@@ -50,17 +50,17 @@ public class AVLTree {
         return node;
     }
 
-    public void delete(int value) {
-        root = delete(root, value);
+    public void delete(int key) {
+        root = delete(root, key);
     }
 
-    private Node delete(Node node, int value) {
+    private Node delete(Node node, int key) {
         if (node == null) return node;
 
-        if (value < node.value) {
-            node.left = delete(node.left, value);
-        } else if (value > node.value) {
-            node.right = delete(node.right, value);
+        if (key < node.key) {
+            node.left = delete(node.left, key);
+        } else if (key > node.key) {
+            node.right = delete(node.right, key);
         } else { // if key is the same as root's key, then this is the node to be deleted
             if (node.left == null || node.right == null) {
                 Node tmp = null;
@@ -77,9 +77,9 @@ public class AVLTree {
             } else { // Node with 2 children. Get the inorder successor (smallest in the right subtree)
                 Node tmp = minValueNode(node.right);
 
-                node.value = tmp.value; // copy the inorder successor's data to this node
+                node.key = tmp.key; // copy the inorder successor's data to this node
 
-                node.right = delete(node.right, tmp.value); // delete the inorder successor
+                node.right = delete(node.right, tmp.key); // delete the inorder successor
             }
         }
 
@@ -161,7 +161,7 @@ public class AVLTree {
         if (node == null) return;
 
         traverse(node.left);
-        System.out.print(" " + node.value);
+        System.out.print(" " + node.key);
         traverse(node.right);
     }
 
@@ -174,22 +174,22 @@ public class AVLTree {
     private void traverseUsing(Consumer<Integer> consumer, Node node) {
         if (node == null) return;
 
-        consumer.accept(node.value);
+        consumer.accept(node.key);
         traverseUsing(consumer, node.left);
         traverseUsing(consumer, node.right);
     }
 
-    public Node search(int value) {
-        return search(root, value);
+    public Node search(int key) {
+        return search(root, key);
     }
 
-    private Node search(Node node, int value) {
+    private Node search(Node node, int key) {
         if (node == null) return null;
 
-        if (node.getValue() > value) {
-            return search(node.left, value);
-        } else if (node.getValue() < value) {
-            return search(node.right, value);
+        if (node.key > key) {
+            return search(node.left, key);
+        } else if (node.key < key) {
+            return search(node.right, key);
         }
 
         return node;
@@ -201,25 +201,21 @@ public class AVLTree {
     }
 
     public static class Node {
-        private Integer value; // TODO: Rename this field to "key"
+        private Integer key;
         private int height;
         private Node left;
         private Node right;
 
-        public Node(Integer value) {
-            this.value = value;
+        public Node(Integer key) {
+            this.key = key;
             this.height = 1;
         }
 
-        public Node(Integer value, Node left, Node right) {
-            this.value = value;
+        public Node(Integer key, Node left, Node right) {
+            this.key = key;
             this.left = left;
             this.right = right;
             // TODO: Need to calculate height for all nodes here
-        }
-
-        public Integer getValue() {
-            return value;
         }
 
         @Override
@@ -227,12 +223,12 @@ public class AVLTree {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Node node = (Node) o;
-            return Objects.equals(value, node.value);
+            return Objects.equals(key, node.key);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(value);
+            return Objects.hash(key);
         }
 
         @Override
