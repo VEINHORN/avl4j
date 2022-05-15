@@ -2,7 +2,7 @@
 
 [![](https://jitpack.io/v/VEINHORN/avl4j.svg)](https://jitpack.io/#VEINHORN/avl4j)
 
-Java implementation of [AVL tree](https://en.wikipedia.org/wiki/AVL_tree) structure.
+Java implementation of the [AVL tree](https://en.wikipedia.org/wiki/AVL_tree) structure.
 
 ## Dependency
 
@@ -47,19 +47,27 @@ tree.insert(10);
 
 ### Traverse
 
-By default, AVL tree is traversed in order:
+By default, AVL tree is traversed __in order__:
 
 ```java
 tree.traverse();
 ```
 
-Or with custom consumer:
+Using custom __consumer__:
+
+```java
+tree.traverse(TraverseOrder.InOrder, consumer);
+```
+
+Using specific __order__ and custom __consumer__:
 
 ```java
 tree.traverse(TraverseOrder.InOrder, consumer);
 ```
 
 ### Deletion
+
+To delete specific node from the tree, just type:
 
 ```java
 tree.delete(5);

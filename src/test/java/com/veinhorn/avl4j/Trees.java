@@ -1,5 +1,6 @@
 package com.veinhorn.avl4j;
 
+// Contains test tree for testing purposes
 public class Trees {
     protected AVLTree createTestTree() {
         return new AVLTree(new TreeNode(

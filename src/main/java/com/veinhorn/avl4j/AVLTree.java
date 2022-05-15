@@ -159,6 +159,10 @@ public class AVLTree {
         getTraversable(TraverseOrder.InOrder).traverse(root, defaultConsumer);
     }
 
+    /**
+     * Traverse tree with custom consumer
+     * @param consumer is using for applying action to the tree node during traversal
+     */
     public void traverse(Consumer<TreeNode> consumer) {
         getTraversable(TraverseOrder.InOrder).traverse(root, consumer);
     }
@@ -167,6 +171,11 @@ public class AVLTree {
         getTraversable(order).traverse(root, consumer);
     }
 
+    /**
+     * Provides traverse implementation based on traverse order
+     * @param order of traverse
+     * @return traverse implementation
+     */
     private Traversable getTraversable(TraverseOrder order) {
         if (order.equals(TraverseOrder.PreOrder)) return new PreOrder();
         else if (order.equals(TraverseOrder.PostOrder)) return new PostOrder();
