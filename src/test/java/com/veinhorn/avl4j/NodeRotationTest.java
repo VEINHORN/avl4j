@@ -16,16 +16,16 @@ public class NodeRotationTest {
     @Test
     @DisplayName("should do left rotation of the node")
     public void testLeftRotation() {
-        AVLTree.Node node = new AVLTree.Node(
+        TreeNode node = new TreeNode(
                 1,
                 null,
-                new AVLTree.Node(2, null, new AVLTree.Node(3))
+                new TreeNode(2, null, new TreeNode(3))
         );
 
-        AVLTree.Node expected = new AVLTree.Node(
+        TreeNode expected = new TreeNode(
                 2,
-                new AVLTree.Node(1),
-                new AVLTree.Node(3)
+                new TreeNode(1),
+                new TreeNode(3)
         );
 
         assertEquals(expected.toString(), AVLTree.rotateLeft(node).toString());
@@ -45,7 +45,7 @@ public class NodeRotationTest {
         tree.insert(1);
         tree.insert(2);
 
-        AVLTree.Node expected = new AVLTree.Node(2, new AVLTree.Node(1), new AVLTree.Node(3));
+        TreeNode expected = new TreeNode(2, new TreeNode(1), new TreeNode(3));
 
         assertEquals(expected.toString(), tree.toString());
     }
@@ -64,7 +64,7 @@ public class NodeRotationTest {
         tree.insert(3);
         tree.insert(2);
 
-        AVLTree.Node expected = new AVLTree.Node(2, new AVLTree.Node(1), new AVLTree.Node(3));
+        TreeNode expected = new TreeNode(2, new TreeNode(1), new TreeNode(3));
 
         assertEquals(expected.toString(), tree.toString());
     }
