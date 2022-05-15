@@ -25,7 +25,7 @@ Step 2. Add the dependency
 <dependency>
     <groupId>com.github.VEINHORN</groupId>
     <artifactId>avl4j</artifactId>
-    <version>f6b7497a61</version>
+    <version>a16f9c55b1</version>
 </dependency>
 ```
 
