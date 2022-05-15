@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // TODO: Add more tests to the AVL tree. Maybe separate unit tests for insert and deletion operations
-class AVLTreeTest {
+class AVLTreeTest extends Trees {
     /*
     Tree before deletion:
 
@@ -132,19 +132,5 @@ class AVLTreeTest {
     @DisplayName("should search value in AVL tree")
     public void testSearching() {
         assertEquals(new TreeNode(1, null, null), createTestTree().search(1));
-    }
-
-    @Test
-    @DisplayName("should traverse AVL tree")
-    public void testTraversing() {
-        createTestTree().traverse();
-    }
-
-    private AVLTree createTestTree() {
-        return new AVLTree(new TreeNode(
-                4,
-                new TreeNode(2, new TreeNode(1), null),
-                new TreeNode(5, null, new TreeNode(6))
-        ));
     }
 }

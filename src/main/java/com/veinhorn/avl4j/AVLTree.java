@@ -1,5 +1,7 @@
 package com.veinhorn.avl4j;
 
+import com.veinhorn.avl4j.operation.*;
+
 import java.util.function.Consumer;
 
 public class AVLTree {
@@ -153,15 +155,23 @@ public class AVLTree {
     }
 
     public void traverse() {
-        traverse(root);
+        Consumer<TreeNode> defaultConsumer = (node) -> System.out.print(" " + node.key());
+        getTraversable(TraverseOrder.InOrder).traverse(root, defaultConsumer);
     }
 
-    private void traverse(TreeNode node) {
-        if (node == null) return;
+    public void traverse(Consumer<TreeNode> consumer) {
+        getTraversable(TraverseOrder.InOrder).traverse(root, consumer);
+    }
 
-        traverse(node.left());
-        System.out.print(" " + node.key());
-        traverse(node.right());
+    public void traverse(TraverseOrder order, Consumer<TreeNode> consumer) {
+        getTraversable(order).traverse(root, consumer);
+    }
+
+    private Traversable getTraversable(TraverseOrder order) {
+        if (order.equals(TraverseOrder.PreOrder)) return new PreOrder();
+        else if (order.equals(TraverseOrder.PostOrder)) return new PostOrder();
+
+        return new InOrder();
     }
 
     // Used only for internal purposes

@@ -31,13 +31,37 @@ Step 2. Add the dependency
 
 ## Usage
 
-```java
-AVLTree tree = new AVLTree();
+### Creation
 
+```java
+AVLTree = new AVLTree();
+```
+
+### Insertion
+
+```java
 tree.insert(3);
 tree.insert(5);
 tree.insert(10);
+```
 
+### Traverse
+
+By default, AVL tree is traversed in order:
+
+```java
+tree.traverse();
+```
+
+Or with custom consumer:
+
+```java
+tree.traverse(TraverseOrder.InOrder, consumer);
+```
+
+### Deletion
+
+```java
 tree.delete(5);
 ```
 
