@@ -13,7 +13,7 @@ public class AVLTreeTraversalTests extends Trees {
     @DisplayName("should traverse AVL tree pre-order")
     public void testTreeTraversalPreOrder() {
         StringBuilder accumulator = new StringBuilder();
-        Consumer<TreeNode<Integer>> consumer = (node) -> accumulator.append(node.key());
+        Consumer<TreeNode<Integer, Integer>> consumer = (node) -> accumulator.append(node.key());
         createTestTree().traverse(TraverseOrder.PreOrder, consumer);
 
         assertThat(accumulator.toString()).isEqualTo("42156");
@@ -23,7 +23,7 @@ public class AVLTreeTraversalTests extends Trees {
     @DisplayName("should traverse AVL tree in-order")
     public void testTreeTraversalInOrder() {
         StringBuilder accumulator = new StringBuilder();
-        Consumer<TreeNode<Integer>> consumer = (node) -> accumulator.append(node.key());
+        Consumer<TreeNode<Integer, Integer>> consumer = (node) -> accumulator.append(node.key());
         createTestTree().traverse(TraverseOrder.InOrder, consumer);
 
         assertThat(accumulator.toString()).isEqualTo("12456");
@@ -33,7 +33,7 @@ public class AVLTreeTraversalTests extends Trees {
     @DisplayName("should traverse AVL tree post-order")
     public void testTreeTraversalPostOrder() {
         StringBuilder accumulator = new StringBuilder();
-        Consumer<TreeNode<Integer>> consumer = (node) -> accumulator.append(node.key());
+        Consumer<TreeNode<Integer, Integer>> consumer = (node) -> accumulator.append(node.key());
         createTestTree().traverse(TraverseOrder.PostOrder, consumer);
 
         assertThat(accumulator.toString()).isEqualTo("12654");
