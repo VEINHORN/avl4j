@@ -50,7 +50,7 @@ class AVLTreeTest extends Trees {
     @Test
     @DisplayName("should insert values into AVL tree and balance it when needed")
     public void testInsertingWithBalancing() {
-        AVLTree tree = new AVLTree();
+        AVLTree<Integer> tree = new AVLTree<>();
         tree.insert(10);
         tree.insert(20);
         tree.insert(30);

@@ -4,25 +4,25 @@ import com.veinhorn.avl4j.operation.TraverseOrder;
 
 import java.util.Objects;
 
-public class TreeNode {
-    private Integer key;
+public class TreeNode<K extends Comparable<K>> {
+    private K key;
     private int height;
-    private TreeNode left;
-    private TreeNode right;
+    private TreeNode<K> left;
+    private TreeNode<K> right;
 
-    public TreeNode(Integer key) {
+    public TreeNode(K key) {
         this.key = key;
         this.height = 1;
     }
 
-    public TreeNode(Integer key, TreeNode left, TreeNode right) {
+    public TreeNode(K key, TreeNode<K> left, TreeNode<K> right) {
         this.key = key;
         this.left = left;
         this.right = right;
         // TODO: Need to calculate height for all nodes here
     }
 
-    public Integer key() {
+    public K key() {
         return key;
     }
 
@@ -30,23 +30,23 @@ public class TreeNode {
         return height;
     }
 
-    public TreeNode left() {
+    public TreeNode<K> left() {
         return left;
     }
 
-    public TreeNode right() {
+    public TreeNode<K> right() {
         return right;
     }
 
-    public void setLeft(TreeNode left) {
+    public void setLeft(TreeNode<K> left) {
         this.left = left;
     }
 
-    public void setRight(TreeNode right) {
+    public void setRight(TreeNode<K> right) {
         this.right = right;
     }
 
-    public void setKey(Integer key) {
+    public void setKey(K key) {
         this.key = key;
     }
 
@@ -69,7 +69,7 @@ public class TreeNode {
 
     @Override
     public String toString() {
-        AVLTree tree = new AVLTree(this);
+        AVLTree<K> tree = new AVLTree<>(this);
         StringBuilder accumulator = new StringBuilder();
         tree.traverse(TraverseOrder.PreOrder, (node) -> accumulator.append(node.key));
 

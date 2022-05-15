@@ -4,9 +4,9 @@ import com.veinhorn.avl4j.TreeNode;
 
 import java.util.function.Consumer;
 
-public class PreOrder implements Traversable {
+public class PreOrder<K extends Comparable<K>> implements Traversable<K> {
     @Override
-    public void traverse(TreeNode node, Consumer<TreeNode> consumer) {
+    public void traverse(TreeNode<K> node, Consumer<TreeNode<K>> consumer) {
         if (node == null) return;
 
         consumer.accept(node);

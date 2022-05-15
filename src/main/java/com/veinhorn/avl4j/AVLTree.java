@@ -4,45 +4,45 @@ import com.veinhorn.avl4j.operation.*;
 
 import java.util.function.Consumer;
 
-public class AVLTree {
-    private TreeNode root;
+public class AVLTree<K extends Comparable<K>> {
+    private TreeNode<K> root;
 
     public AVLTree() {}
 
-    public AVLTree(TreeNode root) {
+    public AVLTree(TreeNode<K> root) {
         this.root = root;
     }
 
-    public void insert(int... keys) {
-        for (int key : keys) insert(key);
+    public void insert(K... keys) {
+        for (K key : keys) insert(key);
     }
 
-    public void insert(int key) {
-        if (root == null) root = new TreeNode(key);
+    public void insert(K key) {
+        if (root == null) root = new TreeNode<>(key);
         else              root = insert(root, key);
     }
 
-    private TreeNode insert(TreeNode node, int key) {
-        if (node == null)          return new TreeNode(key);
+    private TreeNode<K> insert(TreeNode<K> node, K key) {
+        if (node == null)          return new TreeNode<>(key);
 
-        if (node.key() > key)      node.setLeft(insert(node.left(), key));
-        else if (node.key() < key) node.setRight(insert(node.right(), key));
+        if (node.key().compareTo(key) > 0/*node.key() > key*/)      node.setLeft(insert(node.left(), key));
+        else if (node.key().compareTo(key) < 0/*node.key() < key*/) node.setRight(insert(node.right(), key));
         else                       return node;
 
         node.setHeight(1 + Math.max(height(node.left()), height(node.right())));
 
         int balanceFactor = getBalance(node);
         if (balanceFactor > 1) {
-            if (key > node.right().key()) { // right-right case
+            if (key.compareTo(node.right().key()) > 0/*key > node.right().key()*/) { // right-right case
                 return rotateLeft(node);
-            } else if (key < node.right().key()) { // right-left rotation
+            } else if (key.compareTo(node.right().key()) < 0/*key < node.right().key()*/) { // right-left rotation
                 node.setRight(rotateRight(node.right()));
                 return rotateLeft(node);
             }
         } else if (balanceFactor < -1) {
-            if (key < node.left().key()) { // left-left rotation
+            if (key.compareTo(node.left().key()) < 0/*key < node.left().key()*/) { // left-left rotation
                 return rotateRight(node);
-            } else if (key > node.left().key()) { // left-right rotation
+            } else if (key.compareTo(node.left().key()) > 0 /*key > node.left().key()*/) { // left-right rotation
                 node.setLeft(rotateLeft(node.left()));
                 return rotateRight(node);
             }
@@ -51,20 +51,20 @@ public class AVLTree {
         return node;
     }
 
-    public void delete(int key) {
+    public void delete(K key) {
         root = delete(root, key);
     }
 
-    private TreeNode delete(TreeNode node, int key) {
+    private TreeNode<K> delete(TreeNode<K> node, K key) {
         if (node == null) return node;
 
-        if (key < node.key()) {
+        if (key.compareTo(node.key()) < 0 /*key < node.key()*/) {
             node.setLeft(delete(node.left(), key));
-        } else if (key > node.key()) {
+        } else if (key.compareTo(node.key()) > 0 /*key > node.key()*/) {
             node.setRight(delete(node.right(), key));
         } else { // if key is the same as root's key, then this is the node to be deleted
             if (node.left() == null || node.right() == null) {
-                TreeNode tmp = null;
+                TreeNode<K> tmp = null;
 
                 if (tmp == node.left()) tmp = node.right();
                 else                    tmp = node.left();
@@ -76,7 +76,7 @@ public class AVLTree {
                     node = tmp;
                 }
             } else { // Node with 2 children. Get the inorder successor (smallest in the right subtree)
-                TreeNode tmp = minValueNode(node.right());
+                TreeNode<K> tmp = minValueNode(node.right());
 
                 node.setKey(tmp.key()); // copy the inorder successor's data to this node
 
@@ -150,12 +150,12 @@ public class AVLTree {
         return node == null ? 0 : node.height();
     }
 
-    private int getBalance(TreeNode node) {
+    private int getBalance(TreeNode<K> node) {
         return node == null ? 0 : height(node.right()) - height(node.left());
     }
 
     public void traverse() {
-        Consumer<TreeNode> defaultConsumer = (node) -> System.out.print(" " + node.key());
+        Consumer<TreeNode<K>> defaultConsumer = (node) -> System.out.print(" " + node.key());
         getTraversable(TraverseOrder.InOrder).traverse(root, defaultConsumer);
     }
 
@@ -163,11 +163,11 @@ public class AVLTree {
      * Traverse tree with custom consumer
      * @param consumer is using for applying action to the tree node during traversal
      */
-    public void traverse(Consumer<TreeNode> consumer) {
+    public void traverse(Consumer<TreeNode<K>> consumer) {
         getTraversable(TraverseOrder.InOrder).traverse(root, consumer);
     }
 
-    public void traverse(TraverseOrder order, Consumer<TreeNode> consumer) {
+    public void traverse(TraverseOrder order, Consumer<TreeNode<K>> consumer) {
         getTraversable(order).traverse(root, consumer);
     }
 
@@ -176,23 +176,23 @@ public class AVLTree {
      * @param order of traverse
      * @return traverse implementation
      */
-    private Traversable getTraversable(TraverseOrder order) {
-        if (order.equals(TraverseOrder.PreOrder)) return new PreOrder();
-        else if (order.equals(TraverseOrder.PostOrder)) return new PostOrder();
+    private Traversable<K> getTraversable(TraverseOrder order) {
+        if (order.equals(TraverseOrder.PreOrder)) return new PreOrder<>();
+        else if (order.equals(TraverseOrder.PostOrder)) return new PostOrder<>();
 
-        return new InOrder();
+        return new InOrder<>();
     }
 
-    public TreeNode search(int key) {
+    public TreeNode<K> search(int key) {
         return search(root, key);
     }
 
-    private TreeNode search(TreeNode node, int key) {
+    private TreeNode<K> search(TreeNode node, int key) {
         if (node == null) return null;
 
-        if (node.key() > key) {
+        if (node.key().compareTo(key) > 0/* node.key() > key*/) {
             return search(node.left(), key);
-        } else if (node.key() < key) {
+        } else if (node.key().compareTo(key) < 0/* node.key() < key*/) {
             return search(node.right(), key);
         }
 
