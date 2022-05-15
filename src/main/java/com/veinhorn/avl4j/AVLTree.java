@@ -174,20 +174,6 @@ public class AVLTree {
         return new InOrder();
     }
 
-    // Used only for internal purposes
-    public void traverseUsing(Consumer<Integer> consumer) {
-        traverseUsing(consumer, root);
-    }
-
-    // Traverse in pre-order
-    private void traverseUsing(Consumer<Integer> consumer, TreeNode node) {
-        if (node == null) return;
-
-        consumer.accept(node.key());
-        traverseUsing(consumer, node.left());
-        traverseUsing(consumer, node.right());
-    }
-
     public TreeNode search(int key) {
         return search(root, key);
     }

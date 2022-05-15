@@ -1,5 +1,7 @@
 package com.veinhorn.avl4j;
 
+import com.veinhorn.avl4j.operation.TraverseOrder;
+
 import java.util.Objects;
 
 public class TreeNode {
@@ -68,8 +70,9 @@ public class TreeNode {
     @Override
     public String toString() {
         AVLTree tree = new AVLTree(this);
-        StringBuilder builder = new StringBuilder();
-        tree.traverseUsing(builder::append);
-        return builder.toString();
+        StringBuilder accumulator = new StringBuilder();
+        tree.traverse(TraverseOrder.PreOrder, (node) -> accumulator.append(node.key));
+
+        return accumulator.toString();
     }
 }
